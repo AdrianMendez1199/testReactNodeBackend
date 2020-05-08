@@ -1,0 +1,72 @@
+type User {
+    id: ID!, 
+    id_tipouser: ID!, 
+    nombre: String, 
+    mail: String!
+    role: String
+}
+
+
+type Query {
+    getUser(id: ID): [User!]!
+    currentUserIsAdmin: Boolean!
+    getTickets(id: ID): [UserTikect!]!
+}
+
+type Mutation {
+  signIn(mail: String!, password: String!): authPayload!
+  singUp(data: signUpInput): User!
+  assignTicket(userId: ID!): User!
+  setTypeTicket(ticketId: ID!, ticket_pedido: String!): Ticket!
+}
+
+
+type Subscription {
+  newTicket(userId: ID!): TickSubcriptionPayload!
+}
+
+
+type TickSubcriptionPayload{
+  mutation: MutationType!
+  data: Ticket!
+}
+
+
+type Ticket {
+  id: Int!
+  ticket_pedido: String
+  user: User
+}
+
+
+type UserTikect {
+    id: ID!
+    nombre: String! 
+    mail: String!
+    ticket_pedido: String!
+  }
+
+input signUpInput {
+    nombre: String, 
+    mail: String!,
+    password: String!
+}
+
+input loginInput {
+ mail: String!
+ password: String!
+}
+
+
+type authPayload {
+ token: String!
+ user: User!
+}
+
+
+
+enum MutationType{
+  CREATED
+  DELETED
+  UPDATED
+}

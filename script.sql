@@ -1,5 +1,8 @@
 create database ticket;
 
+
+use ticket;
+
 CREATE TABLE user (
  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
  id_tipouser int(11) NOT NULL,
@@ -28,4 +31,10 @@ ALTER TABLE user
   REFERENCES tipo_usuario(id);
   
 
-   ALTER TABLE user MODIFY COLUMN mail VARCHAR(200) NOT NULL UNIQUE;
+ ALTER TABLE user MODIFY COLUMN mail VARCHAR(200) NOT NULL UNIQUE;
+
+ INSERT INTO tipo_usuario(nombre) VALUES('USER');
+ INSERT INTO tipo_usuario(nombre) VALUES('ADMIN');
+ 
+--  $2a$10$Ll01WptNwLAdVcA0lyu.Xe.BNtugwRE7EZaCdqLlQulHMpUQi5DIG // 123456
+ INSERT INTO user(id_tipouser, nombre, mail, password) VALUES(2, 'admin', 'admin@mail.com', '$2a$10$Ll01WptNwLAdVcA0lyu.Xe.BNtugwRE7EZaCdqLlQulHMpUQi5DIG');

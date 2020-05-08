@@ -9,9 +9,13 @@ import { isAdmin, whoAmi } from "../../utils";
 function getUser(parent, args, ctx) {
   const { prisma, request } = ctx;
 
-  if (!isAdmin(request)) throw new Error("Unautorize");
+  if (!isAdmin(request)){
+    throw new Error("Unautorize");
+  }
 
-  if (!args.id) return prisma.user.findMany();
+  if (!args.id) {
+    return prisma.user.findMany();
+  }
 
   return prisma.user.findMany({
     where: { id: Number(args.id) }
@@ -25,8 +29,7 @@ function getUser(parent, args, ctx) {
  * @param {*} ctx
  */
 function currentUserIsAdmin(parent, args, ctx) {
-  const { request } = ctx;
-  return isAdmin(request);
+  return isAdmin(ctx.request);
 }
 
 /**
@@ -38,19 +41,18 @@ function currentUserIsAdmin(parent, args, ctx) {
  * @param {*} ctx
  */
 async function getTickets(parent, args, ctx) {
-  const { request, prisma } = ctx;
 
-  if (!isAdmin(request)) {
-    const data = whoAmi(request);
+  if (!isAdmin(ctx.request)) {
+    const data = whoAmi(ctx.request);
 
-    return prisma.raw`SELECT 
+    return ctx.prisma.raw`SELECT 
     nombre, ticket.id, mail, ticket_pedido
     FROM user
     INNER JOIN ticket ON user.id = ticket.id_user
     WHERE user.id = ${Number(data.genToken.data.id)}`;
   }
 
-  const userTikect = await prisma.raw`SELECT 
+  const userTikect = await ctx.prisma.raw`SELECT 
     nombre, ticket.id, mail, ticket_pedido
     FROM user
     INNER JOIN ticket ON user.id = ticket.id_user`;

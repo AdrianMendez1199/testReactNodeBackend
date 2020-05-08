@@ -19,11 +19,15 @@ async function signIn(parent, args, ctx) {
 
   const dataUser = user[0];
 
-  if (!dataUser) throw new Error("Invalid Credentials");
+  if (!dataUser) {
+       throw new Error("Invalid Credentials");
+  }
 
   const isValidPass = await bcrypt.compare(password, dataUser.password);
 
-  if (!isValidPass) throw new Error("Invalid Credentials");
+  if (!isValidPass) {
+    throw new Error("Invalid Credentials");
+  }
 
   const role = await roleInformation(dataUser.id, ctx);
 
@@ -65,8 +69,9 @@ async function singUp(parent, args, ctx) {
 
     return created;
   } catch (e) {
-    if (e.code == "P2002")
+    if (e.code === "P2002"){
       throw Error("El Email ya esta registrado");
+    }
 
     throw Error("Ocurrio un error");
   }
@@ -82,7 +87,9 @@ async function assignTicket(parent, args, ctx) {
   const { request, prisma, pubsub } = ctx;
   const { userId } = args;
 
-  if (!isAdmin(request)) throw new Error("Unautorized");
+  if (!isAdmin(request)) {
+    throw new Error("Unautorized");
+  }
 
   const createdTicket = await prisma.ticket
     .create({
@@ -113,10 +120,9 @@ async function assignTicket(parent, args, ctx) {
  * @param {*} ctx
  */
 function setTypeTicket(parent, args, ctx) {
-  const { request, prisma, pubsub } = ctx;
+  const { prisma } = ctx;
   const { ticketId, ticket_pedido } = args;
 
-  console.log(args);
 
   return prisma.ticket.update({
     where: {

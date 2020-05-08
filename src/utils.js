@@ -10,8 +10,9 @@ export function generateToken(data, role) {
 export function whoAmi(request) {
   const header = request.get("authorization");
 
-  if (!header) 
+  if (!header) {
     throw new Error("Authentication required");
+  }
 
   const token = header.replace("Bearer ", "");
   const data = jwt.verify(token, process.env.SECRET_TOKEN || "1234");

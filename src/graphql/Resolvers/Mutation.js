@@ -50,7 +50,6 @@ async function signIn(parent, args, ctx) {
  * @param {*} ctx
  */
 async function singUp(parent, args, ctx) {
-  const { prisma } = ctx;
   const { data } = args;
 
   const salt = await bcrypt.genSalt(10);
@@ -58,7 +57,7 @@ async function singUp(parent, args, ctx) {
   data.password = await bcrypt.hash(data.password, salt);
 
   try {
-    const created = await prisma.user.create({
+    const created = await ctx.prisma.user.create({
       data: {
         ...data,
         tipo_usuario: {
@@ -120,11 +119,10 @@ async function assignTicket(parent, args, ctx) {
  * @param {*} ctx
  */
 function setTypeTicket(parent, args, ctx) {
-  const { prisma } = ctx;
   const { ticketId, ticket_pedido } = args;
 
 
-  return prisma.ticket.update({
+  return ctx.prisma.ticket.update({
     where: {
       id: Number(ticketId)
     },

@@ -96,7 +96,7 @@ async function assignTicket(parent, args, ctx) {
     })
     .user();
 
-  ctx.pubsub.publish(`ticketUser-${userId}`, {
+  ctx.pubsub.publish(`ticketUser-${args.userId}`, {
     newTicket: {
       mutation: "CREATED",
       data: createdTicket

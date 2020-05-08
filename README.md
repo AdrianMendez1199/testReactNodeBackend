@@ -1,5 +1,7 @@
 # Test Backend
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/762029ffed2844c383bccfc6ef3f7bf7)](https://app.codacy.com/manual/AdrianMendez1199/testReactNodeBackend?utm_source=github.com&utm_medium=referral&utm_content=AdrianMendez1199/testReactNodeBackend&utm_campaign=Badge_Grade_Settings)
+
  ## Requerimientos
   * nodeJS versión v13.12.0 o superior 
   * Mysql versión 8.0.19 o superior 

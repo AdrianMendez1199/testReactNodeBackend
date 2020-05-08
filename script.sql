@@ -16,8 +16,7 @@ CREATE TABLE ticket (
  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
  id_user int(11) NOT NULL,
  ticket_pedido VARCHAR(200) NOT NULL,
- FOREIGN KEY (id_user)
- REFERENCES user(id) 
+ FOREIGN KEY (id_user) REFERENCES user(id) 
 );
 
 

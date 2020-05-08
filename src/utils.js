@@ -10,7 +10,8 @@ export function generateToken(data, role) {
 export function whoAmi(request) {
   const header = request.get("authorization");
 
-  if (!header) throw new Error(`Authentication required`);
+  if (!header) 
+    throw new Error("Authentication required");
 
   const token = header.replace("Bearer ", "");
   const data = jwt.verify(token, process.env.SECRET_TOKEN || "1234");
@@ -22,9 +23,7 @@ export function isAdmin(request) {
 }
 
 export async function roleInformation(userId, ctx) {
-  const { prisma } = ctx;
-
-  const typeUser = await prisma.user
+  const typeUser = await ctx.prisma.user
     .findOne({
       where: {
         id: Number(userId)

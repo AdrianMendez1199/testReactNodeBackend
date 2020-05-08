@@ -8,10 +8,7 @@ import { generateToken, roleInformation, isAdmin } from "../../utils";
  * @param {*} ctx
  */
 async function signIn(parent, args, ctx) {
-  const { prisma } = ctx;
-  const { password } = args;
-
-  const user = await prisma.user.findMany({
+  const user = await ctx.prisma.user.findMany({
     where: {
       mail: args.mail
     }
@@ -23,7 +20,7 @@ async function signIn(parent, args, ctx) {
        throw new Error("Invalid Credentials");
   }
 
-  const isValidPass = await bcrypt.compare(password, dataUser.password);
+  const isValidPass = await bcrypt.compare(args.password, dataUser.password);
 
   if (!isValidPass) {
     throw new Error("Invalid Credentials");
@@ -83,25 +80,23 @@ async function singUp(parent, args, ctx) {
  * @param {*} ctx
  */
 async function assignTicket(parent, args, ctx) {
-  const { request, prisma, pubsub } = ctx;
-  const { userId } = args;
 
-  if (!isAdmin(request)) {
+  if (!isAdmin(args.request)) {
     throw new Error("Unautorized");
   }
 
-  const createdTicket = await prisma.ticket
+  const createdTicket = await ctx.prisma.ticket
     .create({
       data: {
         ticket_pedido: "",
         user: {
-          connect: { id: Number(userId) }
+          connect: { id: Number(args.userId) }
         }
       }
     })
     .user();
 
-  pubsub.publish(`ticketUser-${userId}`, {
+  ctx.pubsub.publish(`ticketUser-${userId}`, {
     newTicket: {
       mutation: "CREATED",
       data: createdTicket
@@ -119,16 +114,14 @@ async function assignTicket(parent, args, ctx) {
  * @param {*} ctx
  */
 function setTypeTicket(parent, args, ctx) {
-  const { ticketId, ticket_pedido } = args;
-
 
   return ctx.prisma.ticket.update({
-    where: {
-      id: Number(ticketId)
-    },
-    data: {
-      ticket_pedido
-    }
+      where: {
+        id: Number(args.ticketId)
+      },
+      data: {
+        ticket_pedido: args.ticket_pedido
+      }
   });
 }
 

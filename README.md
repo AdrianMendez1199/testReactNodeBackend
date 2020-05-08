@@ -26,7 +26,7 @@
     
     * yarn install    
     
-    * yarn prisma instrospect
+    * yarn prisma introspect
 
     * yarn prisma generate
   ```

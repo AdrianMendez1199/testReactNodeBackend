@@ -10,8 +10,12 @@
    * create base de datos con script.sql
 
   ``` sh 
-    * git clone url
-    
+    * git clone https://github.com/AdrianMendez1199/testReactNodeBackend.git
+       
+      ó
+       
+      git clone git@github.com:AdrianMendez1199/testReactNodeBackend.git
+     
     * cd batestReactNodeBackend 
 
     * cp .env.example .env
@@ -22,7 +26,7 @@
     
     * yarn install    
     
-    * yarn prisma instrospect
+    * yarn prisma introspect
 
     * yarn prisma generate
   ```
